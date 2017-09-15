@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="greeter" class="com.hahnekamp.legacyapp.Greeter">
+        <constructor-arg>
+            <ref bean="greetMessage"></ref>
+        </constructor-arg>
+    </bean>
+    <bean id="greetMessage" class="com.hahnekamp.legacyapp.GreetMessage">
+        <constructor-arg>
+            <value>Greetings from a Legacy App in Spring 1.0</value>
+        </constructor-arg>
+    </bean>
+</beans>

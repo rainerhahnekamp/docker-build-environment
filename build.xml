@@ -1,0 +1,41 @@
+<project>
+    <property name="build" location="build/classes"></property>
+    <property name="build.lib" location="build/lib"></property>
+    <property name="jar" location="build/legacy.jar"></property>
+
+    <target name="clean">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build}"/>
+        <copy todir="${build}">
+            <fileset dir="src/main/resources" includes="**"></fileset>
+        </copy>
+        <javac srcdir="src" destdir="${build}">
+            <classpath><pathelement path="lib/spring-1.0.jar"></pathelement></classpath>
+        </javac>
+    </target>
+
+    <target name="copy-dependencies">
+        <mkdir dir="${build.lib}"></mkdir>
+        <jar jarfile="${build.lib}/dependencies-all.jar">
+            <zipgroupfileset dir="lib/">
+                <include name="*.jar"></include>
+            </zipgroupfileset>
+        </jar>
+    </target>
+
+    <target name="jar" depends="compile, copy-dependencies">
+        <jar destfile="${jar}" basedir="${build}">
+            <manifest>
+                <attribute name="Main-Class" value="com.hahnekamp.legacyapp.Application"/>
+            </manifest>
+            <zipfileset src="${build.lib}/dependencies-all.jar"></zipfileset>
+        </jar>
+    </target>
+
+    <target name="run" depends="jar">
+        <java jar="${jar}" fork="true"/>
+    </target>
+</project>
